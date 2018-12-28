@@ -3,7 +3,7 @@
 cd /src/hybris/bin/ext-commerce/solrserver/resources/solr/bin
 chmod 777 solr
 export SOLR_SSL_ENABLED=true
-./solr stop
+./solr stop -all
 ./solr start -force -p 8983 
 status=$?
 if [ $status -ne 0 ]; then
