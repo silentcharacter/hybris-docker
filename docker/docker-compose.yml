@@ -1,0 +1,37 @@
+version: '2' 
+
+services: 
+  db:
+    build: db
+    container_name: tdsc_db
+    ports:
+      - 33306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: hybris
+      MYSQL_DATABASE: tdsc-db
+      MYSQL_PASSWORD: hybris
+    volumes:
+      - /data/db/data:/var/lib/mysql
+      - /data/db/conf:/etc/mysql/conf.d/source
+      - /data/dump:/docker-entrypoint-initdb.d
+  hybris:
+    build: hybris
+    container_name: tdsc_hybris
+    tty: true
+    links:
+      - db:mysql
+    ports:
+      - 9002:9002
+      - 9001:9001
+      - 8983:8983
+      - 8000:8000
+      - 8080:8080
+    environment:
+      buildType: clean
+      debug: y
+      initialize: n
+    volumes:
+      - /data/media:/src/hybris/data/media
+      - /config:/src/hybris/config
+      - /custom:/src/hybris/bin/custom
