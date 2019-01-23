@@ -1,3 +1,5 @@
+SET GLOBAL innodb_flush_log_at_trx_commit=0;
+
 update users set createdts=now();
 
 update cronjobs set p_active = false where p_active=true;
